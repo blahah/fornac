@@ -121,7 +121,7 @@ circle.outline_node {
     visibility: hidden;
 }
 
-.brush .extent {
+.brush .selection {
   fill-opacity: .1;
   stroke: #fff;
   shape-rendering: crispEdges;

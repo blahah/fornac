@@ -16,7 +16,6 @@ const reload = browserSync.reload;
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.css')
     .pipe($.sourcemaps.init())
-    .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('.tmp/styles'))
     .pipe(reload({stream: true}));
@@ -33,25 +32,7 @@ gulp.task('scripts', () => {
     .pipe(reload({stream: true}));
 });
 
-function lint(files, options) {
-  return () => {
-    return gulp.src(files)
-      .pipe(reload({stream: true, once: true}))
-      .pipe($.eslint(options))
-      .pipe($.eslint.format())
-      .pipe($.if(!browserSync.active, $.eslint.failAfterError()));
-  };
-}
-const testLintOptions = {
-  env: {
-    mocha: true
-  }
-};
-
-gulp.task('lint', lint('app/scripts/**/*.js'));
-gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
-
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', gulp.series('styles', 'scripts', () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.debug())
@@ -59,13 +40,13 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
-});
+}));
 
-gulp.task('buildJs', ['styles', 'scripts'], () => {
+gulp.task('buildJs', gulp.series('styles', 'scripts', () => {
     return gulp.src(['.tmp/scripts/rnatreemap.js'])
     .pipe($.uglify())
     .pipe(gulp.dest('dist/scripts'))
-});
+}));
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
@@ -101,7 +82,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
+gulp.task('serve', gulp.series('styles', 'scripts', 'fonts', () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -120,14 +101,14 @@ gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
-  gulp.watch('app/styles/**/*.css', ['styles']);
-  gulp.watch('app/scripts/**/*.js', ['scripts']);
-  gulp.watch('app/fonts/**/*', ['fonts']);
-  gulp.watch('bower.json', ['wiredep', 'fonts']);
+  gulp.watch('app/styles/**/*.css', gulp.series('styles'))
+  gulp.watch('app/scripts/**/*.js', gulp.series('scripts'))
+  gulp.watch('app/fonts/**/*', gulp.series('fonts'))
+  gulp.watch('bower.json', gulp.series('wiredep', 'fonts'))
 
-  gulp.watch('app/scripts/**/*.js', ['test']);
-  gulp.watch('test/**/*.js', ['test']);
-});
+  gulp.watch('app/scripts/**/*.js', gulp.series('test'))
+  gulp.watch('test/**/*.js', gulp.series('test'))
+}));
 
 gulp.task('serve:dist', () => {
   browserSync({
@@ -139,7 +120,7 @@ gulp.task('serve:dist', () => {
   });
 });
 
-gulp.task('serve:test', ['scripts'], () => {
+gulp.task('serve:test', gulp.series('scripts', () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -155,8 +136,7 @@ gulp.task('serve:test', ['scripts'], () => {
 
   gulp.watch('app/scripts/**/*.js', ['scripts']);
   gulp.watch('test/spec/**/*.js').on('change', reload);
-  gulp.watch('test/spec/**/*.js', ['lint:test']);
-});
+}));
 
 // inject bower components
 gulp.task('wiredep', () => {
@@ -167,19 +147,19 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['html', 'buildJs', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', gulp.series('html', 'buildJs', 'images', 'fonts', 'extras', () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
-});
+}));
 
-gulp.task('default', ['clean'], () => {
+gulp.task('default', gulp.series('clean', () => {
   gulp.start('build');
-});
+}));
 
-gulp.task('test', ['scripts'], () => {
-    gulp.src('test/**/*.js')
-    .pipe($.jasmine());
-});
+gulp.task('test', gulp.series('scripts', () => {
+  gulp.src('test/**/*.js')
+  .pipe($.jasmine());
+}));
 
-gulp.task('test-serve', ['test'], () => {
-    gulp.watch(['app/scripts/**/*.js', 'test/**/*.js'], ['test']);
-});
+gulp.task('test-serve', gulp.series('test', () => {
+  gulp.watch(['app/scripts/**/*.js', 'test/**/*.js'], ['test']);
+}));
