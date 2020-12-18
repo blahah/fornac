@@ -1,34 +1,33 @@
-import {rnaPlot} from './rnaplot.js'
+import { rnaPlot } from './rnaplot.js'
 
-module.exports = function rnaTreemapChart() {
-  var width = 550  
-  var height = 400  
+module.exports = function rnaTreemapChart () {
+  let width = 550
+  let height = 400
 
-  function rnaTreemapNode(selection) {
+  function rnaTreemapNode (selection) {
     // create a background rectangle for each RNA structure
-    selection.each(function(d) {
+    selection.each(function (d) {
       d3.select(this)
-        .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')' })
+        .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')' })
         .append('rect')
         .classed('structure-background-rect', true)
-        .attr('width', function(d) { return Math.max(0, d.dx)   })
-        .attr('height', function(d) { return Math.max(0, d.dy)   })
+        .attr('width', function (d) { return Math.max(0, d.dx) })
+        .attr('height', function (d) { return Math.max(0, d.dy) })
 
       // draw the actual RNA structure
-      var chart = rnaPlot()
-        .width( Math.max(0, d.dx))
-        .height( Math.max(0, d.dy))
+      const chart = rnaPlot()
+        .width(Math.max(0, d.dx))
+        .height(Math.max(0, d.dy))
         .labelInterval(0)
         .rnaEdgePadding(10)
-        .showNucleotideLabels(false)  
+        .showNucleotideLabels(false)
 
       if ('structure' in d) d3.select(this).call(chart)
-
-    })  
+    })
   }
 
-  var chart = function(selection) {
-    selection.each(function(data) {
+  const chart = (function (selection) {
+    selection.each(function (data) {
       console.log('data:', data)
       // initialize the treemap structure
       // sample input
@@ -37,47 +36,46 @@ module.exports = function rnaTreemapChart() {
       //         'sequence': 'ACCGGCC',
       //         'size': 50}]
       // }
-      var treemap = d3.layout.treemap()
+      const treemap = d3.layout.treemap()
         .size([width, height])
         .sticky(false)
-        .value(function(d) { return d.size   })  
+        .value(function (d) { return d.size })
 
       // create a new <g> for each node in the treemap
       // this may be a little redundant, since we expect the calling
       // selection to contain their own g elements
-      var gEnter = d3.select(this).append('g')  
-      var treemapGnodes = gEnter.datum(data).selectAll('.treemapNode')
+      const gEnter = d3.select(this).append('g')
+      const treemapGnodes = gEnter.datum(data).selectAll('.treemapNode')
         .data
-    })  
-  }  (treemap.nodes)
-        .enter()
-        .append('g')
-        .attr('class', 'treemapNode')
-        .call(rnaTreemapNode)  
+    })
+  }(treemap.nodes))
+    .enter()
+    .append('g')
+    .attr('class', 'treemapNode')
+    .call(rnaTreemapNode)
 
-
-  chart.width = function(_) {
-    if (!arguments.length) return width  
-    width = _  
-    return chart  
+  chart.width = function (_) {
+    if (!arguments.length) return width
+    width = _
+    return chart
   }
 
-  chart.height = function(_) {
-    if (!arguments.length) return height  
-    height = _  
-    return chart  
+  chart.height = function (_) {
+    if (!arguments.length) return height
+    height = _
+    return chart
   }
 
-  return chart  
+  return chart
 }
 
-function rnaTreemapGridChart() {
-  var chart = function(selection) {
-    console.log('selection:', selection)  
-     selection.each(function(data) {
-       console.log('data:', data)  
-     })  
+function rnaTreemapGridChart () {
+  const chart = function (selection) {
+    console.log('selection:', selection)
+    selection.each(function (data) {
+      console.log('data:', data)
+    })
   }
 
-  return chart  
+  return chart
 }

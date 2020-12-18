@@ -1,6 +1,6 @@
-var path = require('path');
-var webpack = require('webpack');
-console.log('process.env.NODE_PATH:', process.env.NODE_PATH);
+const path = require('path')
+const webpack = require('webpack')
+console.log('process.env.NODE_PATH:', process.env.NODE_PATH)
 
 module.exports = {
   mode: 'development',
@@ -17,12 +17,12 @@ module.exports = {
     library: '[name]'
   },
   resolve: {
-    modules: [ process.env.NODE_PATH || "node_modules" ],
+    modules: [process.env.NODE_PATH || 'node_modules'],
     extensions: ['.js', '.jsx']
   },
   module: {
     rules: [
-      { 
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
@@ -35,4 +35,4 @@ module.exports = {
       }
     ]
   }
-};
+}
