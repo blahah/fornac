@@ -1,7 +1,7 @@
 .structure-background-rect {
-    stroke: black;
-    stroke-width: 5;
-    fill: transparent;
+  stroke: black;
+  stroke-width: 5;
+  fill: transparent;
 }
 
 circle.rna-base {
@@ -12,9 +12,9 @@ circle.rna-base {
 }
 
 circle.rna-base.label {
-    stroke: transparent;
-    stroke-width: 0;
-    fill: white;
+  stroke: transparent;
+  stroke-width: 0;
+  fill: white;
 }
 
 line.link {
@@ -30,52 +30,52 @@ line.rna-link {
 }
 
 .overlay {
-    fill: transparent;
+  fill: transparent;
 }
 
 .rna-name {
-    text-anchor: middle;
-    dy: -10;
-    font-family: Tahoma, Geneva, sans-serif;
-    font-size: 8pt;
+  text-anchor: middle;
+  dy: -10;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 8pt;
 }
 
 line.rna-link[link-type="backbone"] {
-    stroke: transparent;
+  stroke: transparent;
 }
 
 line.rna-link[link-type="basepair"] {
-    stroke: transparent;
+  stroke: transparent;
 }
 
 line.rna-link[link-type="fake"] {
-    stroke: transparent;
+  stroke: transparent;
 }
 
 line.rna-link[link-type="extra"] {
-    stroke: grey;
+  stroke: grey;
 }
 
 line.rna-link[extra-link-type="correct"] {
-    stroke: green;
+  stroke: green;
 }
 
 line.rna-link[extra-link-type="incorrect"] {
-    stroke: green;
+  stroke: green;
 }
 
 
 path {
-    stroke: grey;
+  stroke: grey;
   stroke-width: 2;
 }
 
 path[extra-link-type="correct"] {
-    stroke: green;
+  stroke: green;
 }
 
 path[extra-link-type="incorrect"] {
-    stroke: red;
+  stroke: red;
 }
 
 
@@ -96,40 +96,40 @@ line.fake {
 }
 
 .transparent {
-    fill: transparent;
-    stroke-width: 0;
-    stroke-opacity: 0;
-    opacity: 0;
+  fill: transparent;
+  stroke-width: 0;
+  stroke-opacity: 0;
+  opacity: 0;
 }
 
 .d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 6px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border-radius: 4px;
-    pointer-events: none;
-          }
+  line-height: 1;
+  font-weight: bold;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 4px;
+  pointer-events: none;
+      }
 
 text.nucleotide-label {
-    font-size: 5.5pt;
-    font-weight: bold;
-    font-family: Tahoma, Geneva, sans-serif;
-    color: rgb(100,100,100);
-    pointer-events: none;
+  font-size: 5.5pt;
+  font-weight: bold;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: rgb(100,100,100);
+  pointer-events: none;
 }
 
 text.number-label {
-    font-size: 5.5pt;
-    font-weight: bold;
-    font-family: Tahoma, Geneva, sans-serif;
-    color: rgb(100,100,100);
-    pointer-events: none;
+  font-size: 5.5pt;
+  font-weight: bold;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: rgb(100,100,100);
+  pointer-events: none;
 }
 
 text {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 g.gnode {
@@ -143,10 +143,10 @@ g.gnode {
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

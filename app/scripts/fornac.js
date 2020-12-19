@@ -5,8 +5,7 @@ import { simpleXyCoordinates } from './simplernaplot.js'
 import { ColorScheme } from 'rnautils'
 import { NAView } from './naview/naview.js'
 import { rnaPlot } from './rnaplot.js'
-// import 'jquery' from jquery;
-//
+
 
 export { RNAGraph } from './rnagraph.js'
 export { rnaPlot } from './rnaplot.js'
@@ -1619,4 +1618,3 @@ export function FornaContainer (element, passedOptions) {
   self.setSize()
 }
 
-/** *********************** END FORNAF **********************************/

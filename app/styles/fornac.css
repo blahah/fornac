@@ -20,25 +20,25 @@ polygon.node {
 }
 
 circle.node.label {
-    stroke: transparent;
-    stroke-width: 0;
-    fill: white;
-    display: inline;
+  stroke: transparent;
+  stroke-width: 0;
+  fill: white;
+  display: inline;
 }
 
 circle.outline_node {
-    stroke-width: 1px;
-    fill: red;
+  stroke-width: 1px;
+  fill: red;
 }
 
 circle.protein {
-    fill: gray;
-    fill-opacity: 0.5;
-    stroke-width: 4;
+  fill: gray;
+  fill-opacity: 0.5;
+  stroke-width: 4;
 }
 
 circle.hidden_outline {
-    stroke-width: 0px;
+  stroke-width: 0px;
 }
 
 
@@ -49,7 +49,7 @@ line.link {
 }
 
 line.pseudoknot {
-    stroke: red;
+  stroke: red;
 }
 
 line.basepair {
@@ -69,11 +69,11 @@ line.fake {
 }
 
 .transparent {
-    fill: transparent;
-    stroke-width: 0;
-    stroke-opacity: 0;
-    opacity: 0;
-    visibility: hidden;
+  fill: transparent;
+  stroke-width: 0;
+  stroke-opacity: 0;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .drag_line {
@@ -89,24 +89,24 @@ line.fake {
 }
 
 .d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 6px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border-radius: 4px;
-    pointer-events: none;
-          }
+  line-height: 1;
+  font-weight: bold;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 4px;
+  pointer-events: none;
+      }
 
 text.node-label {
-    font-weight: bold;
-    font-family: Tahoma, Geneva, sans-serif;
-    color: rgb(100,100,100);
-    pointer-events: none;
+  font-weight: bold;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: rgb(100,100,100);
+  pointer-events: none;
 }
 
 text {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 g.gnode {
@@ -114,11 +114,11 @@ g.gnode {
 }
 
 circle.outline_node.selected {
-    visibility: visible;
+  visibility: visible;
 }
 
 circle.outline_node {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .brush .selection {
@@ -128,10 +128,10 @@ circle.outline_node {
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
