@@ -4,6 +4,7 @@ import { RNAGraph } from './rnagraph.js'
 import { simpleXyCoordinates } from './simplernaplot.js'
 import { ColorScheme } from 'rnautils'
 import { NAView } from './naview/naview.js'
+import { v4 as generateUUID } from 'uuid'
 export { RNAGraph } from './rnagraph.js'
 export { rnaPlot } from './rnaplot.js'
 
@@ -132,7 +133,7 @@ export function FornaContainer (element, passedOptions) {
     if (options.positions.length === 0) {
       // no provided positions means we need to calculate an initial layout
 
-      if (self.options.layout == 'naview') {
+      if (self.options.layout === 'naview') {
         const naview = new NAView()
 
         const naViewPositions = naview.naview_xy_coordinates(rg.pairtable)
