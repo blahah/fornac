@@ -1,12 +1,9 @@
 import '../styles/fornac.css'
 import * as d3 from 'd3'
-import { RNAGraph, moleculesToJson } from './rnagraph.js'
+import { RNAGraph } from './rnagraph.js'
 import { simpleXyCoordinates } from './simplernaplot.js'
 import { ColorScheme } from 'rnautils'
 import { NAView } from './naview/naview.js'
-import { rnaPlot } from './rnaplot.js'
-
-
 export { RNAGraph } from './rnagraph.js'
 export { rnaPlot } from './rnaplot.js'
 
@@ -835,10 +832,9 @@ export function FornaContainer (element, passedOptions) {
     node.classed('selected', false)
   }
 
-  // function redraw() {
-  //   vis.attr('transform',
-  //        'translate(' + d3.event.translate + ')' + ' scale(' + d3.event.scale + ')');
-  // }
+  function redraw (event) {
+    vis.attr('transform', 'translate(' + event.translate + ')' + ' scale(' + event.scale + ')')
+  }
 
   self.getBoundingBoxTransform = function () {
     // Center the view on the molecule(s) and scale it so that everything
@@ -890,8 +886,8 @@ export function FornaContainer (element, passedOptions) {
 
     // tell the zoomer what we did so that next we zoom, it uses the
     // transformation we entered here
-    // self.zoomer.translate(bbTransform.translate);
-    // self.zoomer.scale(bbTransform.scale);
+    self.zoomer.translate(bbTransform.translate)
+    self.zoomer.scale(bbTransform.scale)
   }
 
   self.force = d3.forceSimulation()
@@ -960,9 +956,8 @@ export function FornaContainer (element, passedOptions) {
       d1.fixed |= 2
     })
 
-    // d3.event.sourceEvent.stopPropagation();
-    // d3.select(self).classed('dragging', true);
-    //
+    event.sourceEvent.stopPropagation()
+    d3.select(self).classed('dragging', true)
   }
 
   function dragged (event, d) {
@@ -1022,66 +1017,64 @@ export function FornaContainer (element, passedOptions) {
     .on('drag', dragged)
     .on('end', dragended)
 
-  // function keydown() {
-  //   if (self.deaf)
-  //     // lalalalal, not listening
-  //     return;
+  function keydown (event) {
+    if (self.deaf)
+    // lalalalal, not listening
+    { return }
 
-  //   if (shiftKeydown) return;
+    if (shiftKeydown) return
 
-  //   switch (d3.event.keyCode) {
-  //     case 16:
-  //       shiftKeydown = true;
-  //       break;
-  //     case 17:
-  //       ctrlKeydown = true;
-  //       break;
-  //     case 67: //c
-  //       self.centerView();
-  //       break;
-  //   }
+    switch (event.keyCode) {
+      case 16:
+        shiftKeydown = true
+        break
+      case 17:
+        ctrlKeydown = true
+        break
+      case 67: // c
+        self.centerView()
+        break
+    }
 
-  //   if (shiftKeydown || ctrlKeydown) {
-  //     svgGraph.call(self.zoomer)
-  //     .on('mousedown.zoom', null)
-  //     .on('touchstart.zoom', null)
-  //     .on('touchmove.zoom', null)
-  //     .on('touchend.zoom', null);
+    if (shiftKeydown || ctrlKeydown) {
+      svgGraph.call(self.zoomer)
+        .on('mousedown.zoom', null)
+        .on('touchstart.zoom', null)
+        .on('touchmove.zoom', null)
+        .on('touchend.zoom', null)
 
-  //     //svgGraph.on('zoom', null);
-  //     vis.selectAll('g.gnode')
-  //     .on('mousedown.drag', null);
-  //   }
+      // svgGraph.on('zoom', null);
+      vis.selectAll('g.gnode')
+        .on('mousedown.drag', null)
+    }
 
-  //   if (ctrlKeydown) {
-  //     brush.select('.background').style('cursor', 'crosshair');
-  //     brush.call(self.brusher);
-  //   }
-  // }
+    if (ctrlKeydown) {
+      brush.select('.background').style('cursor', 'crosshair')
+      brush.call(self.brusher)
+    }
+  }
 
-  // function keyup() {
-  //   shiftKeydown = false;
-  //   ctrlKeydown = false;
+  function keyup () {
+    shiftKeydown = false
+    ctrlKeydown = false
 
-  //   brush.call(self.brusher)
-  //   .on('mousedown.brush', null)
-  //   .on('touchstart.brush', null)
-  //   .on('touchmove.brush', null)
-  //   .on('touchend.brush', null);
+    brush.call(self.brusher)
+      .on('mousedown.brush', null)
+      .on('touchstart.brush', null)
+      .on('touchmove.brush', null)
+      .on('touchend.brush', null)
 
-  //   brush.select('.background').style('cursor', 'auto');
-  //   svgGraph.call(self.zoomer);
+    brush.select('.background').style('cursor', 'auto')
+    svgGraph.call(self.zoomer)
 
-  //   vis.selectAll('g.gnode')
-  //   .call(drag);
-  // }
+    vis.selectAll('g.gnode')
+      .call(drag)
+  }
 
-  // d3.select(element)
-  // .on('keydown', keydown)
-  // .on('keyup', keyup)
-  // .on('contextmenu', function() {
-  //     d3.event.preventDefault();
-  // });
+  d3.select(element)
+    .on('keydown', keydown)
+    .on('keyup', keyup)
+    .on('contextmenu', function (event) { event.preventDefault() })
 
   var linkKey = function (d) {
     return d.uid
@@ -1112,7 +1105,7 @@ export function FornaContainer (element, passedOptions) {
 
   const removeLink = function (d) {
     // remove a link between two nodes
-    index = self.graph.links.indexOf(d)
+    var index = self.graph.links.indexOf(d)
 
     if (index > -1) {
       // remove a link
@@ -1165,7 +1158,7 @@ export function FornaContainer (element, passedOptions) {
     // appropriately
     //
     if (newLink.source.rna == newLink.target.rna) {
-      r = newLink.source.rna
+      const r = newLink.source.rna
 
       r.pairtable[newLink.source.num] = newLink.target.num
       r.pairtable[newLink.target.num] = newLink.source.num
@@ -1200,7 +1193,7 @@ export function FornaContainer (element, passedOptions) {
       if (mouseupNode == mousedownNode) { resetMouseVars(); return }
       const newLink = { source: mousedownNode, target: mouseupNode, linkType: 'basepair', value: 1, uid: generateUUID() }
 
-      for (i = 0; i < self.graph.links.length; i++) {
+      for (let i = 0; i < self.graph.links.length; i++) {
         if ((self.graph.links[i].source == mousedownNode) ||
           (self.graph.links[i].target == mousedownNode) ||
             (self.graph.links[i].source == mouseupNode) ||
@@ -1342,21 +1335,21 @@ export function FornaContainer (element, passedOptions) {
     visLinks.selectAll('[link_type=fake_fake]').classed('transparent', !self.options.displayAllLinks)
   }
 
-  // function nudge(dx, dy) {
-  //   node.filter(function(d) { return d.selected; })
-  //   .attr('cx', function(d) { return d.x += dx; })
-  //   .attr('cy', function(d) { return d.y += dy; });
+  function nudge (dx, dy) {
+    node.filter(function (d) { return d.selected })
+      .attr('cx', function (d) { return d.x += dx })
+      .attr('cy', function (d) { return d.y += dy })
 
-  //   link.filter(function(d) { return d.source.selected; })
-  //   .attr('x1', function(d) { return d.source.x; })
-  //   .attr('y1', function(d) { return d.source.y; });
+    link.filter(function (d) { return d.source.selected })
+      .attr('x1', function (d) { return d.source.x })
+      .attr('y1', function (d) { return d.source.y })
 
-  //   link.filter(function(d) { return d.target.selected; })
-  //   .attr('x2', function(d) { return d.target.x; })
-  //   .attr('y2', function(d) { return d.target.y; });
+    link.filter(function (d) { return d.target.selected })
+      .attr('x2', function (d) { return d.target.x })
+      .attr('y2', function (d) { return d.target.y })
 
-  //   d3.event.preventDefault();
-  // }
+    d3.event.preventDefault()
+  }
 
   self.createNewLinks = function (linksEnter) {
     const linkLines = linksEnter.append('svg:line')
@@ -1617,4 +1610,3 @@ export function FornaContainer (element, passedOptions) {
 
   self.setSize()
 }
-
